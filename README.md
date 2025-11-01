@@ -33,3 +33,5 @@ Order Service 내부의 도메인 로직 흐름을 나타낸 다이어그램입�
 각 계층이 어떻게 상호작용하는지 확인할 수 있습니다.
 
 ![order-service-domain-logic-oncourse.png](images/order-service-domain-logic-oncourse.png)
+
+![order-state-transitions.png](images/order-state-transitions.png)
