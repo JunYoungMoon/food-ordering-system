@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Component
 public class OrderDataMapper {
 
-    public Restaurant createOrderCommmandRestaurant(CreateOrderCommand createOrderCommand){
+    public Restaurant createOrderCommmandToRestaurant(CreateOrderCommand createOrderCommand){
         return Restaurant.builder()
                 .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
                 .products(createOrderCommand.getItems().stream().map(orderItem ->
