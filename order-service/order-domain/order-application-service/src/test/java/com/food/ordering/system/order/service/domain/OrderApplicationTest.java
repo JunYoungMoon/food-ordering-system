@@ -139,7 +139,7 @@ public class OrderApplicationTest {
         order.setId(new OrderId(ORDER_ID));
 
         when(customerRepository.findCustomer(CUSTOMER_ID)).thenReturn(Optional.of(customer));
-        when(restaurantRepository.findRestaurantInformation(orderDataMapper.createOrderCommmandRestaurant(createOrderCommand)))
+        when(restaurantRepository.findRestaurantInformation(orderDataMapper.createOrderCommmandToRestaurant(createOrderCommand)))
                 .thenReturn(Optional.of(restaurantResponse));
         when(orderRepository.save(any(Order.class))).thenReturn(order);
     }
