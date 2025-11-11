@@ -35,13 +35,15 @@ public class OrderDataMapper {
     }
 
     public Order createOrderCommandToOrder(CreateOrderCommand createOrderCommand){
-        return Order.builder()
+        List<OrderItem> convertedItems = orderItemToOrderItemEntities(createOrderCommand.getItems());
+        Order order = Order.builder()
                 .customerId(new CustomerId(createOrderCommand.getCustmerId()))
                 .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
                 .deliveryAddress(orderAddressToStreetAddress(createOrderCommand.getAddress()))
                 .price(new Money(createOrderCommand.getPrice()))
-                .items(orderItemToOrderItemEntities(createOrderCommand.getItems()))
+                .items(convertedItems)
                 .build();
+        return order;
     }
 
     public TrackOrderResponse orderToTrackOrderResponse(Order order){

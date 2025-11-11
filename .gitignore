@@ -1,1 +1,25 @@
+# IntelliJ
 .idea
+*.iml
+*.iws
+*.ipr
+
+# Maven
+**/target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+
+# Eclipse (혹시 사용할 경우)
+.classpath
+.project
+.settings/
+
+# 로그 파일
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+**/target/
