@@ -23,3 +23,6 @@ pom.xml.versionsBackup
 Thumbs.db
 
 **/target/
+
+infrastructure/docker-compose/volumes/kafka/
+infrastructure/docker-compose/volumes/zookeeper/
