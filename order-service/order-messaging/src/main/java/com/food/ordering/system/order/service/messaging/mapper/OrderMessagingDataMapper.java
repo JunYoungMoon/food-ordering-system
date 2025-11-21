@@ -3,16 +3,20 @@ package com.food.ordering.system.order.service.messaging.mapper;
 
 import com.food.ordering.system.kafka.order.avro.model.PaymentOrderStatus;
 import com.food.ordering.system.kafka.order.avro.model.PaymentRequestAvroModel;
+import com.food.ordering.system.kafka.order.avro.model.RestaurantApprovalRequestAvroModel;
+import com.food.ordering.system.kafka.order.avro.model.RestaurantOrderStatus;
 import com.food.ordering.system.order.service.domain.entity.Order;
 import com.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
 import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
+import com.food.ordering.system.order.service.domain.event.OrderPaidEvent;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class OrderMessagingDataMapper {
-    public PaymentRequestAvroModel orderCreatedEventToPaymentRequestAvroModel(OrderCreatedEvent orderCreatedEvent){
+    public PaymentRequestAvroModel orderCreatedEventToPaymentRequestAvroModel(OrderCreatedEvent orderCreatedEvent) {
         Order order = orderCreatedEvent.getOrder();
 
         return PaymentRequestAvroModel.newBuilder()
@@ -26,7 +30,7 @@ public class OrderMessagingDataMapper {
                 .build();
     }
 
-    public PaymentRequestAvroModel orderCreatedEventToPaymentRequestAvroModel(OrderCancelledEvent orderCancelledEvent){
+    public PaymentRequestAvroModel orderCancelledEventToPaymentRequestAvroModel(OrderCancelledEvent orderCancelledEvent) {
         Order order = orderCancelledEvent.getOrder();
 
         return PaymentRequestAvroModel.newBuilder()
@@ -40,4 +44,24 @@ public class OrderMessagingDataMapper {
                 .build();
     }
 
+    public RestaurantApprovalRequestAvroModel
+    orderPaidEventToRestaurantApprovalRequestAvroModel(OrderPaidEvent orderPaidEvent) {
+        Order order = orderPaidEvent.getOrder();
+        return RestaurantApprovalRequestAvroModel.newBuilder()
+                .setId(UUID.fromString(UUID.randomUUID().toString()))
+                .setSagaId(UUID.fromString(""))
+                .setOrderId(order.getId().getValue())
+                .setRestaurantId(order.getRestaurantId().getValue())
+                .setRestaurantOrderStatus(RestaurantOrderStatus
+                        .valueOf(order.getOrderStatus().name()))
+                .setProducts(order.getItems().stream().map(orderItem ->
+                        com.food.ordering.system.kafka.order.avro.model.Product.newBuilder()
+                                .setId(orderItem.getProduct().getId().getValue().toString())
+                                .setQuantity(orderItem.getQuantity())
+                                .build()).collect(Collectors.toList()))
+                .setPrice(order.getPrice().getAmount())
+                .setCreatedAt(orderPaidEvent.getCreatedAt().toInstant())
+                .setRestaurantOrderStatus(RestaurantOrderStatus.PAID)
+                .build();
+    }
 }
