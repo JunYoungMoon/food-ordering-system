@@ -37,7 +37,7 @@ public class OrderDataMapper {
     public Order createOrderCommandToOrder(CreateOrderCommand createOrderCommand){
         List<OrderItem> convertedItems = orderItemToOrderItemEntities(createOrderCommand.getItems());
         Order order = Order.builder()
-                .customerId(new CustomerId(createOrderCommand.getCustmerId()))
+                .customerId(new CustomerId(createOrderCommand.getCustomerId()))
                 .restaurantId(new RestaurantId(createOrderCommand.getRestaurantId()))
                 .deliveryAddress(orderAddressToStreetAddress(createOrderCommand.getAddress()))
                 .price(new Money(createOrderCommand.getPrice()))
