@@ -26,3 +26,4 @@ Thumbs.db
 
 infrastructure/docker-compose/volumes/kafka/
 infrastructure/docker-compose/volumes/zookeeper/
+infrastructure/docker-compose/volumes/postgresql/
