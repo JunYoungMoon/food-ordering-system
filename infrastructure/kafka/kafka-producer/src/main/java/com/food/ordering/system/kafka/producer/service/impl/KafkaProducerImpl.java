@@ -28,7 +28,7 @@ public class KafkaProducerImpl<K extends Serializable, V extends SpecificRecordB
     @Override
     public void send(String topicName, K key, V message, CompletableFuture<SendResult<K, V>> callback) {
         try {
-            CompletableFuture<SendResult<K, V>> future = kafkaTemplate.send(topicName, key, message).completable();
+            CompletableFuture<SendResult<K, V>> future = kafkaTemplate.send(topicName, key, message);
 
             future.whenComplete((result, ex) -> {
                 if (ex == null) {
