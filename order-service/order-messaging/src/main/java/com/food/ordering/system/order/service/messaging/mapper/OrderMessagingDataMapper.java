@@ -19,8 +19,8 @@ public class OrderMessagingDataMapper {
         Order order = orderCreatedEvent.getOrder();
 
         return PaymentRequestAvroModel.newBuilder()
-                .setId(UUID.fromString(UUID.randomUUID().toString()))
-                .setSagaId(UUID.fromString(""))
+                .setId(UUID.randomUUID())
+                .setSagaId(UUID.randomUUID())
                 .setCustomerId(order.getCustomerId().getValue())
                 .setOrderId(UUID.fromString(order.getId().getValue().toString()))
                 .setPrice(order.getPrice().getAmount())
@@ -33,8 +33,8 @@ public class OrderMessagingDataMapper {
         Order order = orderCancelledEvent.getOrder();
 
         return PaymentRequestAvroModel.newBuilder()
-                .setId(UUID.fromString(UUID.randomUUID().toString()))
-                .setSagaId(UUID.fromString(""))
+                .setId(UUID.randomUUID())
+                .setSagaId(UUID.randomUUID())
                 .setCustomerId(order.getCustomerId().getValue())
                 .setOrderId(UUID.fromString(order.getId().getValue().toString()))
                 .setPrice(order.getPrice().getAmount())
@@ -47,8 +47,8 @@ public class OrderMessagingDataMapper {
     orderPaidEventToRestaurantApprovalRequestAvroModel(OrderPaidEvent orderPaidEvent) {
         Order order = orderPaidEvent.getOrder();
         return RestaurantApprovalRequestAvroModel.newBuilder()
-                .setId(UUID.fromString(UUID.randomUUID().toString()))
-                .setSagaId(UUID.fromString(""))
+                .setId(UUID.randomUUID())
+                .setSagaId(UUID.randomUUID())
                 .setOrderId(order.getId().getValue())
                 .setRestaurantId(order.getRestaurantId().getValue())
                 .setRestaurantOrderStatus(RestaurantOrderStatus
