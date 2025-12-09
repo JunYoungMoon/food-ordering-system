@@ -1,8 +1,12 @@
 package com.food.ordering.system.payment.service.messaging.mapper;
 
+import com.food.ordering.system.domain.valueobject.PaymentOrderStatus;
+import com.food.ordering.system.kafka.order.avro.model.PaymentRequestAvroModel;
 import com.food.ordering.system.kafka.order.avro.model.PaymentResponseAvroModel;
 import com.food.ordering.system.kafka.order.avro.model.PaymentStatus;
+import com.food.ordering.system.payment.service.domain.dto.PaymentRequest;
 import com.food.ordering.system.payment.service.domain.event.PaymentCompletedEvent;
+import com.food.ordering.system.payment.service.domain.event.PaymentFailedEvent;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -20,6 +24,32 @@ public class PaymentMessagingDataMapper {
                 .setCreatedAt(paymentCompletedEvent.getCreatedAt().toInstant())
                 .setPaymentStatus(PaymentStatus.valueOf(paymentCompletedEvent.getPayment().getPaymentStatus().name()))
                 .setFailureMessages(paymentCompletedEvent.getFailureMessages())
+                .build();
+    }
+
+    public PaymentResponseAvroModel paymentFailedEventToPaymentResponseAvroModel(PaymentFailedEvent paymentFailedEvent){
+        return PaymentResponseAvroModel.newBuilder()
+                .setId(UUID.randomUUID())
+                .setSagaId(UUID.fromString(""))
+                .setPaymentId(paymentFailedEvent.getPayment().getId().getValue())
+                .setCustomerId(paymentFailedEvent.getPayment().getCustomerId().getValue())
+                .setOrderId(paymentFailedEvent.getPayment().getOrderId().getValue())
+                .setPrice(paymentFailedEvent.getPayment().getPrice().getAmount())
+                .setCreatedAt(paymentFailedEvent.getCreatedAt().toInstant())
+                .setPaymentStatus(PaymentStatus.valueOf(paymentFailedEvent.getPayment().getPaymentStatus().name()))
+                .setFailureMessages(paymentFailedEvent.getFailureMessages())
+                .build();
+    }
+
+    public PaymentRequest paymentRequestAvroModelToPaymentRequest(PaymentRequestAvroModel paymentRequestAvroModel){
+        return PaymentRequest.builder()
+                .id(paymentRequestAvroModel.getId().toString())
+                .sagaId(paymentRequestAvroModel.getSagaId().toString())
+                .customerId(paymentRequestAvroModel.getCustomerId().toString())
+                .orderId(paymentRequestAvroModel.getOrderId().toString())
+                .price(paymentRequestAvroModel.getPrice())
+                .createdAt(paymentRequestAvroModel.getCreatedAt())
+                .paymentOrderStatus(PaymentOrderStatus.valueOf(paymentRequestAvroModel.getPaymentOrderStatus().name()))
                 .build();
     }
 }
