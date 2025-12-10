@@ -5,6 +5,7 @@ import com.food.ordering.system.kafka.order.avro.model.PaymentRequestAvroModel;
 import com.food.ordering.system.kafka.order.avro.model.PaymentResponseAvroModel;
 import com.food.ordering.system.kafka.order.avro.model.PaymentStatus;
 import com.food.ordering.system.payment.service.domain.dto.PaymentRequest;
+import com.food.ordering.system.payment.service.domain.event.PaymentCancelledEvent;
 import com.food.ordering.system.payment.service.domain.event.PaymentCompletedEvent;
 import com.food.ordering.system.payment.service.domain.event.PaymentFailedEvent;
 import org.springframework.stereotype.Component;
@@ -26,6 +27,21 @@ public class PaymentMessagingDataMapper {
                 .setFailureMessages(paymentCompletedEvent.getFailureMessages())
                 .build();
     }
+
+    public PaymentResponseAvroModel paymentCancelledEventToPaymentResponseAvroModel(PaymentCancelledEvent paymentCancelledEvent){
+        return PaymentResponseAvroModel.newBuilder()
+                .setId(UUID.randomUUID())
+                .setSagaId(UUID.fromString(""))
+                .setPaymentId(paymentCancelledEvent.getPayment().getId().getValue())
+                .setCustomerId(paymentCancelledEvent.getPayment().getCustomerId().getValue())
+                .setOrderId(paymentCancelledEvent.getPayment().getOrderId().getValue())
+                .setPrice(paymentCancelledEvent.getPayment().getPrice().getAmount())
+                .setCreatedAt(paymentCancelledEvent.getCreatedAt().toInstant())
+                .setPaymentStatus(PaymentStatus.valueOf(paymentCancelledEvent.getPayment().getPaymentStatus().name()))
+                .setFailureMessages(paymentCancelledEvent.getFailureMessages())
+                .build();
+    }
+
 
     public PaymentResponseAvroModel paymentFailedEventToPaymentResponseAvroModel(PaymentFailedEvent paymentFailedEvent){
         return PaymentResponseAvroModel.newBuilder()
