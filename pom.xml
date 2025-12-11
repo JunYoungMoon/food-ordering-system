@@ -10,7 +10,6 @@
         <module>infrastructure</module>
         <module>customer-service</module>
         <module>payment-service</module>
-        <module>payment-service/payment-container</module>
     </modules>
 
     <parent>
@@ -68,6 +67,16 @@
             <dependency>
                 <groupId>com.food.ordering.system</groupId>
                 <artifactId>payment-application-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>payment-dataaccess</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.food.ordering.system</groupId>
+                <artifactId>payment-messaging</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
