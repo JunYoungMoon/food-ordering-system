@@ -42,16 +42,9 @@
                 <configuration>
                     <image>
                         <name>${project.groupId}/restaurant.service:${project.version}</name>
+                        <builder>paketobuildpacks/builder-jammy-base:latest</builder>
                     </image>
                 </configuration>
-                <executions>
-                    <execution>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>build-image</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
