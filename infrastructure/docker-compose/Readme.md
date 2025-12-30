@@ -47,4 +47,4 @@ sudo docker compose -f common.yml -f init_kafka.yml up
     - Kafka Version: 2.4
 4. "Save" 클릭
 
-![CMAK 클러스터 추가](../images/img.png)
+![CMAK 클러스터 추가](../../images/img.png)
