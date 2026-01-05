@@ -47,13 +47,15 @@
                }
         },
         {
-            "name": "failureMessages",
-            "type": {
-                "type": "array",
-                "items":{
-                  "type":"string"
-               }
+          "name": "failureMessages",
+          "type": [
+            "null",
+            {
+              "type": "array",
+              "items": "string"
             }
+          ],
+          "default": null
         }
     ]
 }
