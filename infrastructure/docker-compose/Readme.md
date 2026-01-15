@@ -26,7 +26,13 @@ Zookeeper가 정상 작동하면 Kafka 브로커들을 실행합니다.
 sudo docker compose -f common.yml -f kafka_cluster.yml up
 ```
 
-### 4. Kafka 토픽 초기화
+### 4. PostgreSQL 실행
+데이터베이스 서버를 실행합니다.
+```bash
+sudo docker compose -f common.yml -f postgresql.yml up
+```
+
+### 5. Kafka 토픽 초기화
 필요한 토픽들을 생성하고 초기 설정을 수행합니다.
 ```bash
 sudo docker compose -f common.yml -f init_kafka.yml up
@@ -42,9 +48,9 @@ sudo docker compose -f common.yml -f init_kafka.yml up
 1. CMAK 웹 인터페이스 접속
 2. "Cluster" → "Add Cluster" 클릭
 3. 다음 정보 입력:
-    - Cluster Name: `food-ordering-system-cluster`
-    - Cluster Zookeeper Hosts: `zookeeper:2181`
-    - Kafka Version: 2.4
+   - Cluster Name: `food-ordering-system-cluster`
+   - Cluster Zookeeper Hosts: `zookeeper:2181`
+   - Kafka Version: 2.4
 4. "Save" 클릭
 
 ![CMAK 클러스터 추가](../../images/img.png)
