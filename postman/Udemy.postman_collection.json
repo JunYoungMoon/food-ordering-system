@@ -1,0 +1,69 @@
+{
+  "info": {
+    "_postman_id": "8bc538ff-9b59-4baa-8ecf-f7706f2623a4",
+    "name": "Udemy",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "20328920"
+  },
+  "item": [
+    {
+      "name": "주문하기",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"customerId\": \"d215b5f8-0249-4dc5-89a3-51fd148cfb41\",\r\n  \"restaurantId\": \"d215b5f8-0249-4dc5-89a3-51fd148cfb45\",\r\n  \"address\": {\r\n    \"street\": \"street_1\",\r\n    \"postalCode\": \"1000AB\",\r\n    \"city\": \"Amsterdam\"\r\n  },\r\n  \"price\": 200.00,\r\n  \"items\": [\r\n    {\r\n      \"productId\": \"d215b5f8-0249-4dc5-89a3-51fd148cfb48\",\r\n      \"quantity\": 1,\r\n      \"price\": 50.00,\r\n      \"subTotal\": 50.00\r\n    },\r\n    {\r\n      \"productId\": \"d215b5f8-0249-4dc5-89a3-51fd148cfb48\",\r\n      \"quantity\": 3,\r\n      \"price\": 50.00,\r\n      \"subTotal\": 150.00\r\n    }\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8181/orders",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8181",
+          "path": [
+            "orders"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "주문보기",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"customerId\": \"d215b5f8-0249-4dc5-89a3-51fd148cfb41\",\r\n  \"restaurantId\": \"d215b5f8-0249-4dc5-89a3-51fd148cfb45\",\r\n  \"address\": {\r\n    \"street\": \"street_1\",\r\n    \"postalCode\": \"1000AB\",\r\n    \"city\": \"Amsterdam\"\r\n  },\r\n  \"price\": 200.00,\r\n  \"items\": [\r\n    {\r\n      \"productId\": \"d215b5f8-0249-4dc5-89a3-51fd148cfb48\",\r\n      \"quantity\": 1,\r\n      \"price\": 50.00,\r\n      \"subTotal\": 50.00\r\n    },\r\n    {\r\n      \"productId\": \"d215b5f8-0249-4dc5-89a3-51fd148cfb48\",\r\n      \"quantity\": 3,\r\n      \"price\": 50.00,\r\n      \"subTotal\": 150.00\r\n    }\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8181/orders",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8181",
+          "path": [
+            "orders"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
