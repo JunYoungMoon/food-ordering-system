@@ -34,4 +34,11 @@ Order Service 내부의 도메인 로직 흐름을 나타낸 다이어그램입�
 
 ![order-service-domain-logic-oncourse.png](images/order-service-domain-logic-oncourse.png)
 
+## 주문 상태 트랜잭션
 ![order-state-transitions.png](images/order-state-transitions.png)
+
+## SAGA 패턴
+![saga-2.png](images/saga-2.png)
+
+## OUTBOX 패턴
+![outbox.png](images/outbox.png)
