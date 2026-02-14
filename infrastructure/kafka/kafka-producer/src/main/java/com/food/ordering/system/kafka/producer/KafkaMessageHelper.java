@@ -1,16 +1,43 @@
 package com.food.ordering.system.kafka.producer;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.food.ordering.system.order.service.domain.exception.OrderDomainException;
+import com.food.ordering.system.outbox.OutboxStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Component;
 
+import java.util.function.BiConsumer;
+
 @Slf4j
 @Component
 public class KafkaMessageHelper {
-    public <T> void handleSuccess(String orderId,
-                               T message,
-                               SendResult<String, T> result) {
+
+    private final ObjectMapper objectMapper;
+
+    public KafkaMessageHelper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
+    public <T> T getOrderEventPayload(String payload, Class<T> outputType) {
+        try {
+            return objectMapper.readValue(payload, outputType);
+        } catch (JsonProcessingException e) {
+            log.error("Could not read {} object!", outputType.getName(), e);
+            throw new OrderDomainException("Could not read " + outputType.getName() + " object!", e);
+        }
+    }
+
+    /**
+     * 성공 시 로깅 + Outbox 상태 업데이트
+     */
+    public <T, U> void handleSuccess(String orderId,
+                                     T message,
+                                     SendResult<String, T> result,
+                                     U outboxMessage,
+                                     BiConsumer<U, OutboxStatus> outboxCallback) {
         RecordMetadata metadata = result.getRecordMetadata();
 
         log.info("Received successful response from Kafka for order id: {} " +
@@ -20,17 +47,23 @@ public class KafkaMessageHelper {
                 metadata.partition(),
                 metadata.offset(),
                 metadata.timestamp());
+
+        // Outbox 상태 업데이트
+        outboxCallback.accept(outboxMessage, OutboxStatus.COMPLETED);
     }
 
-    public <T> void handleFailure(String orderId,
-                               T message,
-                               Throwable throwable) {
-        log.error("Error while sending PaymentRequestAvroModel message to kafka for order id: {} " +
+    /**
+     * 실패 시 로깅 + Outbox 상태 업데이트
+     */
+    public <T, U> void handleFailure(String orderId,
+                                     T message,
+                                     Throwable throwable,
+                                     U outboxMessage,
+                                     BiConsumer<U, OutboxStatus> outboxCallback) {
+        log.error("Error while sending message to kafka for order id: {} " +
                 "and message: {}", orderId, message.toString(), throwable);
 
-        // 실패 처리 로직 (재시도, DLQ, 알림 등)
-        // retryTemplate.execute(context -> kafkaProducer.send(...));
-        // 또는 실패 이벤트 저장
-        // failureEventStore.save(new FailedPublishEvent(orderId, message, throwable));
+        // Outbox 상태 업데이트
+        outboxCallback.accept(outboxMessage, OutboxStatus.FAILED);
     }
 }
