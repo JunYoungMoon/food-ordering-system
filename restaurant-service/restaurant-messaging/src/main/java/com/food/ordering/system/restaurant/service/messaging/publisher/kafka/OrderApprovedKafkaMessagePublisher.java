@@ -53,11 +53,24 @@ public class OrderApprovedKafkaMessagePublisher implements OrderApprovedMessageP
             // CompletableFuture로 콜백 처리
             future.whenComplete((result, throwable) -> {
                 if (throwable != null) {
-                    kafkaMessageHelper.handleFailure(orderId, restaurantApprovalResponseAvroModel, throwable);
+                    kafkaMessageHelper.handleFailure(
+                            orderId,
+                            restaurantApprovalResponseAvroModel,
+                            throwable,
+                            outboxMessage,
+                            this::updateOutboxStatus
+                    );
                 } else {
-                    kafkaMessageHelper.handleSuccess(orderId, restaurantApprovalResponseAvroModel, result);
+                    kafkaMessageHelper.handleSuccess(
+                            orderId,
+                            restaurantApprovalResponseAvroModel,
+                            result,
+                            outboxMessage,
+                            this::updateOutboxStatus
+                    );
                 }
             });
+
 
             log.info("RestaurantApprovalResponseAvroModel sent to kafka at: {}", System.nanoTime());
         } catch (Exception e) {
